@@ -2,12 +2,19 @@
   "name": "interview-ass",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8080",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@date-io/dayjs": "^2.11.0",
+    "@emotion/react": "^11.6.0",
+    "@emotion/styled": "^11.6.0",
+    "@mui/lab": "^5.0.0-alpha.56",
+    "@mui/material": "^5.2.0",
+    "axios": "^0.24.0",
+    "dayjs": "^1.10.7",
     "next": "12.0.4",
     "react": "17.0.2",
     "react-dom": "17.0.2"
