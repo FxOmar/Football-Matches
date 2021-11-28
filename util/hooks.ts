@@ -4,11 +4,12 @@ import http from "../Http/http";
 interface State<T> {
   data?: T;
   error?: Error;
+  loading?: boolean;
 }
 
 // discriminated union type
 type Action<T> =
-  | { type: "loading" }
+  | { type: "loading"; payload: boolean }
   | { type: "fetched"; payload: T }
   | { type: "error"; payload: Error };
 
@@ -16,13 +17,14 @@ export function useFetch<T = unknown>(endpoint: string): [State<T>, Function] {
   const initialState: State<T> = {
     error: undefined,
     data: undefined,
+    loading: false,
   };
 
   // Keep state logic separated
   const fetchReducer = (state: State<T>, action: Action<T>): State<T> => {
     switch (action.type) {
       case "loading":
-        return { ...initialState };
+        return { ...initialState, loading: action.payload };
       case "fetched":
         return { ...initialState, data: action.payload };
       case "error":
@@ -37,7 +39,7 @@ export function useFetch<T = unknown>(endpoint: string): [State<T>, Function] {
   const fetchData = async (query: string) => {
     if (!endpoint) return;
 
-    dispatch({ type: "loading" });
+    dispatch({ type: "loading", payload: true });
 
     try {
       const { data, statusText } = await http.get(`${endpoint}?${query}`);

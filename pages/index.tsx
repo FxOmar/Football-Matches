@@ -3,32 +3,26 @@ import type {
   InferGetServerSidePropsType,
   NextPage,
 } from "next";
-import { useState } from "react";
+import type { MatchInterface } from "../Interfaces/MatchInterface";
 import { groupCompetitionBy, day } from "../util";
 import { getMatches } from "../Http/Fetch";
+import { useFetch } from "../util/hooks";
 /**
  * Components
  */
 import BaseTable from "../components/BaseTable";
 import BaseFilters from "../components/BaseFilters";
-import { MatchInterface } from "../Interfaces/MatchInterface";
 
 const Home: NextPage = ({
   matches,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const [data, setData] = useState<Array<
-    Array<MatchInterface | string>
-  > | null>(null);
-
-  async function fetchData(date: Date) {
-    const data = await getMatches(day(date).format("YYYY-MM-DD"));
-    setData(groupCompetitionBy(data));
-  }
+  const [{ data, error, loading }, fetchData] =
+    useFetch<MatchInterface[]>("/matches");
 
   return (
     <>
-      <BaseFilters callback={fetchData} />
-      <BaseTable matches={data ?? matches} />
+      <BaseFilters callback={fetchData} loading={loading} />
+      <BaseTable matches={groupCompetitionBy(data ?? matches)} />
     </>
   );
 };
@@ -44,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      matches: groupCompetitionBy(data),
+      matches: data,
     },
   };
 };

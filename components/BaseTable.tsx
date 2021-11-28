@@ -1,10 +1,18 @@
-import type { FC } from "react";
-import type { MatchInterface } from "../Interfaces/MatchInterface";
+import { FC, useEffect, useState } from "react";
+import type { Contestant, MatchInterface } from "../Interfaces/MatchInterface";
 import { day } from "../util";
+import BaseTeams from "./BaseTeams";
 
-type Matches = { matches: Array<Array<MatchInterface>> };
+const BaseTable: FC<{ matches: Array<Array<MatchInterface>> }> = ({
+  matches,
+}) => {
+  const [teamsStore, setTeamsStore] = useState<Contestant[]>([]);
 
-const BaseTable: FC<Matches> = ({ matches }) => {
+  useEffect(() => {
+    setTeamsStore(JSON.parse(localStorage.getItem("teams") || "[]"));
+    console.log("object");
+  }, []);
+
   return (
     <div>
       {matches.map((competition: MatchInterface[]) => (
@@ -12,7 +20,11 @@ const BaseTable: FC<Matches> = ({ matches }) => {
           <h1>{competition[0].competition.name}</h1>
           {competition.map((match) => (
             <div key={match.match_id}>
-              {match.description}
+              <BaseTeams
+                teams={match.contestant}
+                addTeamToFollowingList={setTeamsStore}
+                followingList={teamsStore}
+              />
               <br />
               <span>
                 {day(

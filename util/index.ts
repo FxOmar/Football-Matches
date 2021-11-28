@@ -17,7 +17,7 @@ export const day = dayjs;
  */
 export function groupCompetitionBy(
   collection: MatchInterface[]
-): Array<Array<MatchInterface | string>> {
+): Array<Array<MatchInterface>> {
   let index,
     values = [],
     result = [];
