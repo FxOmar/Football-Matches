@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CircleIcon from "@mui/icons-material/Circle";
 import { day } from "../util";
+import BaseSearchFilter from "./BaseSearchFilter";
 
 const BaseFilters: FC<{ callback: Function; loading?: boolean | undefined }> =
   ({ callback, loading }) => {
@@ -14,6 +15,9 @@ const BaseFilters: FC<{ callback: Function; loading?: boolean | undefined }> =
 
     return (
       <div>
+        <div>
+          <BaseSearchFilter />
+        </div>
         <LocalizationProvider dateAdapter={DateAdapter}>
           <DatePicker
             views={["day", "month", "year"]}
