@@ -1,43 +1,40 @@
 import { FC, useEffect, useState } from "react";
 import type { Contestant, MatchInterface } from "../Interfaces/MatchInterface";
-import { day } from "../util";
 import BaseTeams from "./BaseTeams";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const BaseTable: FC<{ matches: Array<Array<MatchInterface>> }> = ({
-  matches,
-}) => {
-  const [teamsStore, setTeamsStore] = useState<Contestant[]>([]);
-
-  useEffect(() => {
-    setTeamsStore(JSON.parse(localStorage.getItem("teams") || "[]"));
-    console.log("object");
-  }, []);
-
+const BaseTable: FC<{
+  matches: Array<Array<MatchInterface>>;
+  setTeamsStore: Function;
+  teams: Contestant[];
+}> = ({ matches, setTeamsStore, teams }) => {
   return (
     <div>
       {matches.map((competition: MatchInterface[]) => (
-        <div key={competition[0].competition.name}>
-          <h1>{competition[0].competition.name}</h1>
-          {competition.map((match) => (
-            <div key={match.match_id}>
-              <BaseTeams
-                teams={match.contestant}
-                addTeamToFollowingList={setTeamsStore}
-                followingList={teamsStore}
-              />
-              <br />
-              <span>
-                {day(
-                  `${day.utc(match.date.$date).format("YYYY-MM-DD")}T${
-                    match.time
-                  }`
-                ).format("hh:mm A")}
-              </span>
-              <br />
-              <span>{match.match_details.match_status}</span>
-            </div>
-          ))}
-        </div>
+        <Accordion key={competition[0].competition.name}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>{competition[0].competition.name}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            {competition.map((match) => (
+              <div key={match.match_id}>
+                <BaseTeams
+                  teams={match}
+                  addTeamToFollowingList={setTeamsStore}
+                  followingList={teams}
+                />
+              </div>
+            ))}
+          </AccordionDetails>
+        </Accordion>
       ))}
     </div>
   );

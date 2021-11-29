@@ -1,19 +1,19 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import http from "../Http/http";
-import { MatchInterface } from "../Interfaces/MatchInterface";
 
-const BaseSearchFilter = () => {
-  const [data, setData] = useState<MatchInterface[] | undefined>();
+const BaseSearchFilter: FC<{ setSearchData: Function }> = ({
+  setSearchData,
+}) => {
   const [input, setInput] = useState<string | undefined>();
 
   function Search(text: string): void {
     let endpoints = [
-      `/api/matches/_search?contestant[0].code=${text}`,
-      `/api/matches/_search?contestant[1].code=${text}`,
+      `/api/matches/_search?contestant[0].name=${text}`,
+      `/api/matches/_search?contestant[1].name=${text}`,
       `/api/matches/_search?competition.name=${text}`,
     ];
 
@@ -21,7 +21,7 @@ const BaseSearchFilter = () => {
       (response) => {
         response.forEach(({ data }) => {
           if (data.length > 0) {
-            setData(data);
+            setSearchData(data);
           }
         });
       }

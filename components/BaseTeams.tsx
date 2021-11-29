@@ -5,10 +5,16 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import StarIcon from "@mui/icons-material/Star";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ToggleButton from "@mui/material/ToggleButton";
+import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
 import { FC, useState } from "react";
 import type { Contestant } from "../Interfaces/MatchInterface";
+import { day } from "../util";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
+import Image from "next/image";
 
 const style = {
   position: "absolute" as "absolute",
@@ -22,6 +28,11 @@ const style = {
   p: 4,
 };
 
+const teamsStyle = {
+  display: "flex",
+  gap: "10px",
+};
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -30,7 +41,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const BaseTeams: FC<{
-  teams: Contestant[];
+  teams: any;
   addTeamToFollowingList: Function;
   followingList: Contestant[];
 }> = ({ teams, addTeamToFollowingList, followingList }) => {
@@ -72,7 +83,44 @@ const BaseTeams: FC<{
 
   return (
     <>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={12}
+      >
+        <Grid item xs={2}>
+          {day(
+            `${day.utc(teams.date.$date).format("YYYY-MM-DD")}T${teams.time}`
+          ).format("hh:mm A")}
+        </Grid>
+        <Grid item xs={6}>
+          <Typography>
+            <Stack
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              spacing={3}
+            >
+              <div style={teamsStyle}>
+                {teams.contestant[0].name}
+                <Image src="/placeholder.png" alt="me" width="25" height="25" />
+              </div>
+              <div>VS</div>
+              <div style={teamsStyle}>
+                <Image src="/placeholder.png" alt="me" width="25" height="25" />
+                {teams.contestant[1].name}
+              </div>
+            </Stack>
+          </Typography>
+        </Grid>
+        <Grid item xs={1.3}>
+          <IconButton onClick={handleOpen}>
+            <MoreHorizIcon />
+          </IconButton>
+        </Grid>
+      </Grid>
       <Modal
         keepMounted
         open={open}
@@ -86,7 +134,7 @@ const BaseTeams: FC<{
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
-            {teams.map((team) => (
+            {teams.contestant.map((team: Contestant) => (
               <Grid item xs={2} sm={4} md={4} key={team.id}>
                 <Item>{team.official_name}</Item>
                 <ToggleButton
