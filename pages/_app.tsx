@@ -23,17 +23,17 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box
-        sx={{
+      <div
+        style={{
           width: "100%",
-          height: "100%",
-          bgcolor: "background.default",
-          color: "text.primary",
-          pl: 3,
+          height: "100vh",
+          backgroundColor: "rgb(44, 44, 44)",
+          color: "white",
+          paddingLeft: "20px",
         }}
       >
         <Component {...pageProps} />
-      </Box>
+      </div>
     </ThemeProvider>
   );
 }

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, SyntheticEvent } from "react";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
@@ -28,7 +28,7 @@ const BaseSearchFilter: FC<{ setSearchData: Function }> = ({
     );
   }
 
-  function handleSearchBarClick(event) {
+  function handleSearchBarClick(event: SyntheticEvent<EventTarget>) {
     event.preventDefault();
 
     if (input) Search(input);

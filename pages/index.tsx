@@ -6,6 +6,7 @@ import type {
 import type { Contestant, MatchInterface } from "../Interfaces/MatchInterface";
 import { groupCompetitionBy } from "../util";
 import { getMatches } from "../Http/Fetch";
+import { useEffect, useState } from "react";
 /**
  * Components
  */
@@ -13,11 +14,11 @@ import BaseTable from "../components/BaseTable";
 import BaseFilters from "../components/BaseFilters";
 import BaseFollowingTeamsList from "../components/BaseFollowingTeamsList";
 import Grid from "@mui/material/Grid";
-import { useEffect, useState } from "react";
+import { Box } from "@mui/material";
 
 const style = {
   marginTop: "20px",
-  marginBottom: "20px",
+  marginBottom: "50px",
 };
 
 const Home: NextPage = ({

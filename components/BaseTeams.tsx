@@ -131,11 +131,13 @@ const BaseTeams: FC<{
         <Box sx={style}>
           <Grid
             container
-            spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 4, sm: 8, md: 12 }}
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
           >
             {teams.contestant.map((team: Contestant) => (
-              <Grid item xs={2} sm={4} md={4} key={team.id}>
+              <Grid item xs={6} key={team.id}>
                 <Item>{team.official_name}</Item>
                 <ToggleButton
                   value={team.id}

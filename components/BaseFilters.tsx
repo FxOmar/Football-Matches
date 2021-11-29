@@ -24,7 +24,7 @@ const BaseFilters: FC<{
     setSearch(data);
   }, [data, setSearch]);
 
-  function changeHandler(newValue) {
+  function changeHandler(newValue: any) {
     setValue(newValue);
     fetchData(
       `date.$date=${day(
