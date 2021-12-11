@@ -18,7 +18,7 @@ json-server db.json --routes routes.json
 Clone this repo:
 
 ```bash
-  git clone https://github.com/FxOmar/Elbotola-Interview-assignment.git
+  git clone https://github.com/FxOmar/Football-Matches.git
 ```
 
 Go to `nextJS` folder and run these commands:
